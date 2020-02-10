@@ -174,3 +174,9 @@ select {
 .list li:hover .delete-btn {
   opacity: 1;
 }
+
+@media(max-width: 425px){
+  .container {
+    width: 330px;
+  }
+}
