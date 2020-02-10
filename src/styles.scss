@@ -23,7 +23,7 @@ body {
 
 .container {
   margin: 30px auto;
-  width: 350px;
+  width: 550px;
 }
 
 h1 {
@@ -133,7 +133,7 @@ select {
 
 .list li {
   background-color: #fff;
-  box-shadow: var(--box-shadow);
+  // box-shadow: var(--box-shadow);
   color: #333;
   display: flex;
   justify-content: space-between;
@@ -143,11 +143,16 @@ select {
 }
 
 .list li.plus {
-  border-right: 5px solid #2ecc71;
+  // border-right: 5px solid #2ecc71;
+  // border-left: 5px solid #2ecc71;
+  border: 2px solid #2ecc71;
+
 }
 
 .list li.minus {
-  border-right: 5px solid #c0392b;
+  // border-right: 5px solid #c0392b;
+  // border-left: 5px solid #c0392b;
+  border: 2px solid #c0392b;
 }
 
 .delete-btn {
