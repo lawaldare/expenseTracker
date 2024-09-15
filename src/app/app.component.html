@@ -2,26 +2,39 @@
 
 <div class="container">
   <h4>Your Balance</h4>
-  <h1 id="balance">{{totalBalance | currency : '₦'}}</h1>
+  <h1 id="balance">{{ totalBalance() | currency : "₦" }}</h1>
 
   <div class="inc-exp-container">
     <div>
       <h4>Income</h4>
-      <p id="money-plus" class="money plus">+{{totalIncome | currency : '₦'}}</p>
+      <p id="money-plus" class="money plus">
+        +{{ totalIncome() | currency : "₦" }}
+      </p>
     </div>
     <div>
       <h4>Expense</h4>
-      <p id="money-minus" class="money minus">-{{totalExpense | currency : '₦'}}</p>
+      <p id="money-minus" class="money minus">
+        -{{ totalExpense() | currency : "₦" }}
+      </p>
     </div>
   </div>
 
   <h3>History</h3>
   <ul id="list" class="list">
-    <li [ngClass]="{
-      'minus': transaction.category === '-',
-      'plus': transaction.category === '+' }" *ngFor="let transaction of transactions">
-      {{transaction.text}} <span>{{transaction.category}}{{transaction.amount | currency : '₦'}}</span><button
-        class="delete-btn" (click)="deleteTransaction(transaction.id)">x</button>
+    <li
+      [ngClass]="{
+        minus: transaction.category === '-',
+        plus: transaction.category === '+'
+      }"
+      *ngFor="let transaction of transactions()"
+    >
+      {{ transaction.text }}
+      <span
+        >{{ transaction.category
+        }}{{ transaction.amount | currency : "₦" }}</span
+      ><button class="delete-btn" (click)="deleteTransaction(transaction.id)">
+        x
+      </button>
     </li>
   </ul>
 
@@ -30,7 +43,14 @@
   <form #transactionForm="ngForm" (ngSubmit)="onSubmit(transactionForm)">
     <div class="form-control">
       <label for="text">Text</label>
-      <input type="text" #text="ngModel" ngModel name="text" placeholder="Enter text..." required />
+      <input
+        type="text"
+        #text="ngModel"
+        ngModel
+        name="text"
+        placeholder="Enter text..."
+        required
+      />
     </div>
     <div class="form-control">
       <label for="amount">Amount</label>
@@ -38,8 +58,17 @@
         <option value="-">Expense</option>
         <option value="+">Income</option>
       </select>
-      <input type="number" #amount="ngModel" ngModel name="amount" placeholder="Enter amount..." required />
+      <input
+        type="number"
+        #amount="ngModel"
+        ngModel
+        name="amount"
+        placeholder="Enter amount..."
+        required
+      />
     </div>
-    <button class="btn" [disabled]="transactionForm.invalid">Add transaction</button>
+    <button class="btn" [disabled]="transactionForm.invalid">
+      Add transaction
+    </button>
   </form>
 </div>
