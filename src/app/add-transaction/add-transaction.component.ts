@@ -18,6 +18,7 @@ export class AddTransactionComponent {
   onSubmit(form: NgForm) {
     const transaction: Transaction = form.value;
     transaction.id = this.transactionService.generateID();
+    transaction.timeStamp = new Date();
     const updatedTransactions = [...this.transactions(), transaction];
     this.transactionService.updateTransaction(updatedTransactions);
     form.resetForm();

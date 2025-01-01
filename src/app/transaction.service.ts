@@ -8,6 +8,24 @@ export class TransactionService {
   private transactions = signal<Transaction[]>([]);
   public publicTransactions = this.transactions.asReadonly();
 
+  public readonly currencies = [
+    {
+      name: "Pound Sterling",
+      symbol: "£",
+      rate: 1,
+    },
+    {
+      name: "Euro",
+      symbol: "€",
+      rate: 1.21,
+    },
+    {
+      name: "United States Dollars",
+      symbol: "$",
+      rate: 1.25,
+    },
+  ];
+
   constructor() {
     if (localStorage["transactions"]) {
       const transactions = JSON.parse(localStorage.getItem("transactions"));

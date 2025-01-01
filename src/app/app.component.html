@@ -2,7 +2,9 @@
 
 <div class="container">
   <h4>Your Balance</h4>
-  <h1 id="balance">{{ totalBalance() | currency : "₦" }}</h1>
+  <h1 class="balance" [class.negative]="totalBalance() < 0">
+    {{ totalBalance() | currency : "£" }}
+  </h1>
 
   <total-income-expenses />
 

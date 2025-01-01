@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
 
 :root {
   --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -18,7 +18,7 @@ body {
   justify-content: center;
   min-height: 100vh;
   margin: 0;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 .container {
@@ -66,11 +66,13 @@ h4 {
   margin: 5px 0;
 }
 
-.money.plus {
+.money.plus,
+.balance {
   color: #2ecc71;
 }
 
-.money.minus {
+.money.minus,
+.negative {
   color: #c0392b;
 }
 
@@ -79,8 +81,8 @@ label {
   margin: 10px 0;
 }
 
-input[type='text'],
-input[type='number'] {
+input[type="text"],
+input[type="number"] {
   border: 1px solid #dedede;
   border-radius: 2px;
   display: block;
@@ -133,20 +135,28 @@ select {
 
 .list li {
   background-color: #fff;
+  padding: 10px;
+  margin: 10px 0;
+  position: relative;
+}
+
+.list li div {
   // box-shadow: var(--box-shadow);
   color: #333;
   display: flex;
   justify-content: space-between;
-  position: relative;
-  padding: 10px;
-  margin: 10px 0;
+  font-size: 18px;
+}
+
+.list li .timestamp {
+  font-size: 12px;
+  color: grey;
 }
 
 .list li.plus {
   // border-right: 5px solid #2ecc71;
   // border-left: 5px solid #2ecc71;
   border: 2px solid #2ecc71;
-
 }
 
 .list li.minus {
@@ -175,7 +185,7 @@ select {
   opacity: 1;
 }
 
-@media(max-width: 425px){
+@media (max-width: 425px) {
   .container {
     width: 330px;
   }

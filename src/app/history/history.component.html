@@ -7,10 +7,12 @@
     }"
     *ngFor="let transaction of transactions()"
   >
-    {{ transaction.text }}
-    <span
-      >{{ transaction.category }}{{ transaction.amount | currency : "₦" }}</span
-    ><button class="delete-btn" (click)="deleteTransaction(transaction.id)">
+    <div>
+      <span>{{ transaction.text | titlecase }}</span>
+      <span>{{ transaction.amount | currency : "£" }}</span>
+    </div>
+    <span class="timestamp">{{ transaction.timeStamp | date : "medium" }}</span>
+    <button class="delete-btn" (click)="deleteTransaction(transaction.id)">
       x
     </button>
   </li>
