@@ -209,6 +209,11 @@ select {
 @media (max-width: 523px) {
   .container {
     width: 330px;
+
+    section {
+      flex-direction: column;
+      align-items: start;
+    }
   }
   .delete-btn {
     opacity: 1;
