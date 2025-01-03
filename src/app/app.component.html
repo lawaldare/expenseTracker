@@ -1,14 +1,30 @@
 <h2>Expense Tracker</h2>
 
-<div class="container">
-  <h4>Your Balance</h4>
-  <h1 class="balance" [class.negative]="totalBalance() < 0">
-    {{ totalBalance() | currency : "£" }}
-  </h1>
+<div class="container" id="htmlData">
+  <section>
+    <div class="left">
+      <h4>Your Balance</h4>
+      <h1 class="balance" [class.negative]="totalBalance() < 0">
+        {{ totalBalance() | currency : selectedCurrencySymbol() }}
+      </h1>
+    </div>
+    <div class="right" data-html2canvas-ignore>
+      <i class="ph ph-file-pdf" (click)="exportAsPDF()"></i>
+      <i class="ph ph-trash" (click)="deleteAllTransaction()"></i>
+      <select
+        [(ngModel)]="selectedCurrency"
+        (ngModelChange)="changeCurrency($event)"
+      >
+        @for(curr of currencies; track curr.symbol){
+        <option [value]="curr.type">{{ curr.name }}</option>
+        }
+      </select>
+    </div>
+  </section>
 
   <total-income-expenses />
 
   <history />
 
-  <add-transaction />
+  <add-transaction data-html2canvas-ignore />
 </div>

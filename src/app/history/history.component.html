@@ -9,7 +9,9 @@
   >
     <div>
       <span>{{ transaction.text | titlecase }}</span>
-      <span>{{ transaction.amount | currency : "£" }}</span>
+      <span>{{
+        transaction.amount | currency : selectedCurrencySymbol()
+      }}</span>
     </div>
     <span class="timestamp">{{ transaction.timeStamp | date : "medium" }}</span>
     <button class="delete-btn" (click)="deleteTransaction(transaction.id)">

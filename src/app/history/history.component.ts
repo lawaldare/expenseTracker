@@ -12,6 +12,8 @@ import { TransactionService } from "../transaction.service";
 export class HistoryComponent {
   private readonly transactionService = inject(TransactionService);
   public readonly transactions = this.transactionService.publicTransactions;
+  public readonly selectedCurrencySymbol =
+    this.transactionService.selectedCurrencySymbol;
 
   public deleteTransaction(id): void {
     const transactions = this.transactions().filter(

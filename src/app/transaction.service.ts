@@ -1,6 +1,20 @@
 import { computed, Injectable, signal } from "@angular/core";
 import { Transaction } from "./transaction";
 
+export interface Currency {
+  name: string;
+  symbol: string;
+  rate?: number;
+  type: CurrencyType;
+  label: string;
+}
+
+export type CurrencyType =
+  | "PoundSterling"
+  | "Euro"
+  | "UnitedStatesDollars"
+  | "CanadaDollars";
+
 @Injectable({
   providedIn: "root",
 })
@@ -8,23 +22,48 @@ export class TransactionService {
   private transactions = signal<Transaction[]>([]);
   public publicTransactions = this.transactions.asReadonly();
 
-  public readonly currencies = [
+  public readonly currencyConfig = {
+    CAD: 1.8,
+    EUR: 1.21,
+    GBP: 1,
+    USD: 1.25,
+  };
+
+  public readonly currencies: Currency[] = [
     {
       name: "Pound Sterling",
       symbol: "£",
-      rate: 1,
+      type: "PoundSterling",
+      label: "GBP",
     },
     {
       name: "Euro",
       symbol: "€",
-      rate: 1.21,
+      type: "Euro",
+      label: "EUR",
     },
     {
       name: "United States Dollars",
       symbol: "$",
-      rate: 1.25,
+      type: "UnitedStatesDollars",
+      label: "USD",
+    },
+    {
+      name: "Canada Dollars",
+      symbol: "CAD $",
+      type: "CanadaDollars",
+      label: "CAD",
     },
   ];
+
+  public selectedCurrency = signal<CurrencyType>(this.currencies[0].type);
+
+  public selectedCurrencySymbol = computed(() => {
+    const currency = this.currencies.find(
+      (curr) => curr.type === this.selectedCurrency()
+    );
+    return currency.symbol;
+  });
 
   constructor() {
     if (localStorage["transactions"]) {

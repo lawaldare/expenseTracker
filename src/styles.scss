@@ -21,14 +21,35 @@ body {
   font-family: "Lato", sans-serif;
 }
 
+.ph {
+  font-size: 35px;
+  cursor: pointer;
+}
+
 .container {
   margin: 30px auto;
-  width: 550px;
+  width: 600px;
+}
+
+.container section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .right {
+    display: flex;
+    align-items: center;
+
+    .ph {
+      margin-right: 10px;
+    }
+  }
 }
 
 h1 {
   letter-spacing: 1px;
   margin: 0;
+  font-size: 32px;
 }
 
 h3 {
