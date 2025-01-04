@@ -29,16 +29,13 @@ export class AppComponent {
   public selectedCurrencySymbol =
     this.transactionService.selectedCurrencySymbol;
 
-  changeCurrency(currency) {
-    // console.log(currency);
-    // const curr = this.currencies.find((curr) => curr.type === currency);
-    // const updatedTransactions = this.transactions().map((transaction) => ({
-    //   ...transaction,
-    //   amount:
-    //     transaction.amount *
-    //     (1 / this.transactionService.currencyConfig[curr.label]),
-    // }));
-    // this.transactionService.updateTransaction(updatedTransactions);
+  public changeCurrency(currency): void {
+    this.transactionService.setPreviousCurrency(
+      this.transactionService.currentCurrency()
+    );
+    const curr = this.currencies.find((curr) => curr.type === currency);
+    this.transactionService.currentCurrency.set(curr.label);
+    this.transactionService.updateCurrencies();
   }
 
   public deleteAllTransaction(): void {

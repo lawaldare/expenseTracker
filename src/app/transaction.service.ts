@@ -22,11 +22,24 @@ export class TransactionService {
   private transactions = signal<Transaction[]>([]);
   public publicTransactions = this.transactions.asReadonly();
 
+  private previousCurrency = signal<string>("");
+  public publicPreviousCurrency = this.previousCurrency.asReadonly();
+
+  public currentCurrency = signal<string>("GBP");
+
   public readonly currencyConfig = {
-    CAD: 1.8,
-    EUR: 1.21,
-    GBP: 1,
-    USD: 1.25,
+    GBPCAD: 1.7943656746,
+    GBPEUR: 1.2045411764,
+    GBPUSD: 1.2421277739,
+    EURCAD: 1.4896673602,
+    EURGBP: 0.8301916278,
+    EURUSD: 1.0312040786,
+    CADEUR: 0.671290804,
+    CADGBP: 0.5573000053,
+    CADUSD: 0.692237815,
+    USDCAD: 1.4445902525,
+    USDEUR: 0.9697401521,
+    USDGBP: 0.8050701554,
   };
 
   public readonly currencies: Currency[] = [
@@ -72,8 +85,24 @@ export class TransactionService {
     }
   }
 
+  public updateCurrencies(): void {
+    const exchangeCurrencies = `${this.previousCurrency()}${this.currentCurrency()}`;
+    const rate = this.currencyConfig[exchangeCurrencies];
+    const updatedTransactions = this.transactions().map((transaction) => {
+      return {
+        ...transaction,
+        amount: transaction.amount * rate,
+      };
+    });
+    this.updateTransaction(updatedTransactions);
+  }
+
   public updateTransaction(trans: Transaction[]) {
     this.transactions.set(trans);
+  }
+
+  public setPreviousCurrency(str: string): void {
+    this.previousCurrency.set(str);
   }
 
   public generateID(): number {
