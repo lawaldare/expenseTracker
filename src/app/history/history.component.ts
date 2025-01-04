@@ -20,6 +20,5 @@ export class HistoryComponent {
       (transaction) => transaction.id !== id
     );
     this.transactionService.updateTransaction(transactions);
-    localStorage.setItem("transactions", JSON.stringify(this.transactions()));
   }
 }

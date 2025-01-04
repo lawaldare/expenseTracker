@@ -22,6 +22,5 @@ export class AddTransactionComponent {
     const updatedTransactions = [...this.transactions(), transaction];
     this.transactionService.updateTransaction(updatedTransactions);
     form.resetForm();
-    localStorage.setItem("transactions", JSON.stringify(this.transactions()));
   }
 }

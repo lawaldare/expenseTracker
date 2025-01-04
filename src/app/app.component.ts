@@ -25,16 +25,16 @@ export class AppComponent {
   public readonly transactions = this.transactionService.publicTransactions;
   public totalBalance = this.transactionService.totalBalance;
   public readonly currencies = this.transactionService.currencies;
-  public selectedCurrency = this.transactionService.selectedCurrency;
+  public selectedCurrencyType = this.transactionService.selectedCurrencyType;
   public selectedCurrencySymbol =
     this.transactionService.selectedCurrencySymbol;
 
   public changeCurrency(currency): void {
     this.transactionService.setPreviousCurrency(
-      this.transactionService.currentCurrency()
+      this.transactionService.currentCurrencyLabel()
     );
     const curr = this.currencies.find((curr) => curr.type === currency);
-    this.transactionService.currentCurrency.set(curr.label);
+    this.transactionService.currentCurrencyLabel.set(curr.label);
     this.transactionService.updateCurrencies();
   }
 

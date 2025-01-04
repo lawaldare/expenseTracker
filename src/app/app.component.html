@@ -12,7 +12,7 @@
       <i class="ph ph-file-pdf" (click)="exportAsPDF()"></i>
       <i class="ph ph-trash" (click)="deleteAllTransaction()"></i>
       <select
-        [(ngModel)]="selectedCurrency"
+        [(ngModel)]="selectedCurrencyType"
         (ngModelChange)="changeCurrency($event)"
       >
         @for(curr of currencies; track curr.symbol){

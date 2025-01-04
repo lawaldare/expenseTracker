@@ -22,10 +22,8 @@ export class TransactionService {
   private transactions = signal<Transaction[]>([]);
   public publicTransactions = this.transactions.asReadonly();
 
-  private previousCurrency = signal<string>("");
-  public publicPreviousCurrency = this.previousCurrency.asReadonly();
-
-  public currentCurrency = signal<string>("GBP");
+  private previousCurrencyLabel = signal<string>("");
+  public publicPreviousCurrencyLabel = this.previousCurrencyLabel.asReadonly();
 
   public readonly currencyConfig = {
     GBPCAD: 1.7943656746,
@@ -69,11 +67,12 @@ export class TransactionService {
     },
   ];
 
-  public selectedCurrency = signal<CurrencyType>(this.currencies[0].type);
+  public selectedCurrencyType = signal<CurrencyType>(this.currencies[0].type);
+  public currentCurrencyLabel = signal<string>(this.currencies[0].label);
 
   public selectedCurrencySymbol = computed(() => {
     const currency = this.currencies.find(
-      (curr) => curr.type === this.selectedCurrency()
+      (curr) => curr.type === this.selectedCurrencyType()
     );
     return currency.symbol;
   });
@@ -86,7 +85,7 @@ export class TransactionService {
   }
 
   public updateCurrencies(): void {
-    const exchangeCurrencies = `${this.previousCurrency()}${this.currentCurrency()}`;
+    const exchangeCurrencies = `${this.previousCurrencyLabel()}${this.currentCurrencyLabel()}`;
     const rate = this.currencyConfig[exchangeCurrencies];
     const updatedTransactions = this.transactions().map((transaction) => {
       return {
@@ -99,10 +98,11 @@ export class TransactionService {
 
   public updateTransaction(trans: Transaction[]) {
     this.transactions.set(trans);
+    localStorage.setItem("transactions", JSON.stringify(this.transactions()));
   }
 
   public setPreviousCurrency(str: string): void {
-    this.previousCurrency.set(str);
+    this.previousCurrencyLabel.set(str);
   }
 
   public generateID(): number {
