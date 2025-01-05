@@ -1,5 +1,7 @@
-import { computed, Injectable, signal } from "@angular/core";
+import { computed, inject, Injectable, signal } from "@angular/core";
 import { Transaction } from "./transaction";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "src/environments/environment";
 
 export interface Currency {
   name: string;
@@ -13,12 +15,14 @@ export type CurrencyType =
   | "PoundSterling"
   | "Euro"
   | "UnitedStatesDollars"
-  | "CanadaDollars";
+  | "CanadaDollars"
+  | "Naira";
 
 @Injectable({
   providedIn: "root",
 })
 export class TransactionService {
+  private http = inject(HttpClient);
   private transactions = signal<Transaction[]>([]);
   public publicTransactions = this.transactions.asReadonly();
 
@@ -32,15 +36,23 @@ export class TransactionService {
     GBPCAD: 1.7943656746,
     GBPEUR: 1.2045411764,
     GBPUSD: 1.2421277739,
+    GBPNGN: 1928.0315,
     EURCAD: 1.4896673602,
     EURGBP: 0.8301916278,
     EURUSD: 1.0312040786,
+    EURNGN: 1602.8195,
     CADEUR: 0.671290804,
     CADGBP: 0.5573000053,
     CADUSD: 0.692237815,
+    CADNGN: 1073.6956,
     USDCAD: 1.4445902525,
     USDEUR: 0.9697401521,
     USDGBP: 0.8050701554,
+    USDNGN: 1535.2875,
+    NGNGBP: 0.00051867,
+    NGNUSD: 0.00065027,
+    NGNEUR: 0.0006239,
+    NGNCAD: 0.00093136,
   };
 
   public readonly currencies: Currency[] = [
@@ -67,6 +79,12 @@ export class TransactionService {
       symbol: "CAD $",
       type: "CanadaDollars",
       label: "CAD",
+    },
+    {
+      name: "Naira",
+      symbol: "₦",
+      type: "Naira",
+      label: "NGN",
     },
   ];
 
@@ -98,6 +116,14 @@ export class TransactionService {
     } else {
       this.updateSelectedCurrency(this.currencies[0]);
     }
+
+    // this.http
+    //   .get(
+    //     `${environment.API}pair/${this.previousCurrencyLabel}/${this.currentCurrencyLabel}`
+    //   )
+    //   .subscribe((data) => {
+    //     console.log(data);
+    //   });
   }
 
   public updateCurrencies(): void {
