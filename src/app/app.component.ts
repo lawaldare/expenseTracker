@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { TotalIncomeExpensesComponent } from "./total-income-expenses/total-income-expenses.component";
 import { HistoryComponent } from "./history/history.component";
-import { TransactionService } from "./transaction.service";
+import { CurrencyType, TransactionService } from "./transaction.service";
 import { AddTransactionComponent } from "./add-transaction/add-transaction.component";
 import { FormsModule } from "@angular/forms";
 import html2pdf from "html2pdf.js";
@@ -25,16 +25,16 @@ export class AppComponent {
   public readonly transactions = this.transactionService.publicTransactions;
   public totalBalance = this.transactionService.totalBalance;
   public readonly currencies = this.transactionService.currencies;
-  public selectedCurrencyType = this.transactionService.selectedCurrencyType;
+  public selectedCurrencyType = this.transactionService.selectedCurrencyType();
   public selectedCurrencySymbol =
     this.transactionService.selectedCurrencySymbol;
 
-  public changeCurrency(currency): void {
+  public changeCurrency(currencyType: CurrencyType): void {
     this.transactionService.setPreviousCurrency(
       this.transactionService.currentCurrencyLabel()
     );
-    const curr = this.currencies.find((curr) => curr.type === currency);
-    this.transactionService.currentCurrencyLabel.set(curr.label);
+    const curr = this.currencies.find((curr) => curr.type === currencyType);
+    this.transactionService.updateSelectedCurrency(curr);
     this.transactionService.updateCurrencies();
   }
 

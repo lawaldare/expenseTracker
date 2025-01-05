@@ -22,6 +22,9 @@ export class TransactionService {
   private transactions = signal<Transaction[]>([]);
   public publicTransactions = this.transactions.asReadonly();
 
+  private selectedCurrency = signal<Currency>({} as Currency);
+  public publicSelectedCurrency = this.selectedCurrency.asReadonly();
+
   private previousCurrencyLabel = signal<string>("");
   public publicPreviousCurrencyLabel = this.previousCurrencyLabel.asReadonly();
 
@@ -67,8 +70,14 @@ export class TransactionService {
     },
   ];
 
-  public selectedCurrencyType = signal<CurrencyType>(this.currencies[0].type);
-  public currentCurrencyLabel = signal<string>(this.currencies[0].label);
+  public selectedCurrencyType = computed(() => {
+    const c = this.selectedCurrency();
+    return c.type;
+  });
+  public currentCurrencyLabel = computed(() => {
+    const c = this.selectedCurrency();
+    return c.label;
+  });
 
   public selectedCurrencySymbol = computed(() => {
     const currency = this.currencies.find(
@@ -81,6 +90,13 @@ export class TransactionService {
     if (localStorage["transactions"]) {
       const transactions = JSON.parse(localStorage.getItem("transactions"));
       this.updateTransaction(transactions);
+    }
+
+    if (localStorage["currency"]) {
+      const currency = JSON.parse(localStorage.getItem("currency"));
+      this.updateSelectedCurrency(currency);
+    } else {
+      this.updateSelectedCurrency(this.currencies[0]);
     }
   }
 
@@ -99,6 +115,11 @@ export class TransactionService {
   public updateTransaction(trans: Transaction[]) {
     this.transactions.set(trans);
     localStorage.setItem("transactions", JSON.stringify(this.transactions()));
+  }
+
+  public updateSelectedCurrency(currency: Currency): void {
+    this.selectedCurrency.set(currency);
+    localStorage.setItem("currency", JSON.stringify(this.selectedCurrency()));
   }
 
   public setPreviousCurrency(str: string): void {
