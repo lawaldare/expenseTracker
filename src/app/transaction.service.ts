@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from "@angular/core";
-import { Transaction } from "./transaction";
+import { Transaction, User } from "./transaction.model";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "src/environments/environment";
+import { Models } from "appwrite";
 
 export interface Currency {
   name: string;

@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^19.0.5",
     "@angular/platform-browser-dynamic": "^19.0.5",
     "@angular/router": "^19.0.5",
+    "appwrite": "^16.1.0",
     "html2pdf.js": "^0.10.2",
     "rxjs": "~6.6.7",
     "tslib": "^2.0.0",

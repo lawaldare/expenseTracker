@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { FormsModule, NgForm } from "@angular/forms";
-import { Transaction } from "../transaction";
+import { Transaction } from "../transaction.model";
 import { TransactionService } from "../transaction.service";
 
 @Component({

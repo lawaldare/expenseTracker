@@ -1,0 +1,52 @@
+<h1 class="underline">Sign Up</h1>
+
+<div class="container">
+  <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+    <div class="form-control">
+      <label for="text">First Name</label>
+      <input
+        type="text"
+        #text="ngModel"
+        ngModel
+        name="firstName"
+        placeholder="Enter your full name..."
+        required
+      />
+    </div>
+    <div class="form-control">
+      <label for="text">Last Name</label>
+      <input
+        type="text"
+        #text="ngModel"
+        ngModel
+        name="lastName"
+        placeholder="Enter your full name..."
+        required
+      />
+    </div>
+    <div class="form-control">
+      <label for="text">Email</label>
+      <input
+        type="email"
+        #text="ngModel"
+        ngModel
+        name="email"
+        placeholder="Enter your email..."
+        required
+      />
+    </div>
+    <div class="form-control">
+      <label for="text">Password</label>
+      <input
+        type="password"
+        #text="ngModel"
+        ngModel
+        name="password"
+        placeholder="Enter your password..."
+        required
+      />
+    </div>
+    <button class="btn" [disabled]="registerForm.invalid">Sign Up</button>
+  </form>
+  <p class="footer">Have an account? <span routerLink="/">Sign in</span></p>
+</div>

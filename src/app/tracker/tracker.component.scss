@@ -1,0 +1,12 @@
+.info {
+  border-bottom: 1px solid var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+
+  .ph {
+    font-size: 20px;
+    color: black;
+  }
+}
