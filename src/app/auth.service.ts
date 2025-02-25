@@ -38,6 +38,7 @@ export class AuthService {
           email: newUser.email,
         }
       );
+      this.updateUser(user);
       sessionStorage.setItem("x-user", JSON.stringify(user));
     } catch (error) {
       console.error(error);
@@ -50,7 +51,7 @@ export class AuthService {
         userLogin.email,
         userLogin.password
       );
-      console.log(user);
+      this.updateUser(user);
       sessionStorage.setItem("x-user", JSON.stringify(user));
     } catch (error) {
       console.error(error);
@@ -65,7 +66,7 @@ export class AuthService {
     }
   }
 
-  public updateUser(user: User): void {
+  public updateUser(user: any): void {
     this.user.set(user);
   }
 }
