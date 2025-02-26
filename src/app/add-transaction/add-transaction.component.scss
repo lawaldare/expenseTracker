@@ -1,0 +1,19 @@
+.radio-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  .radio {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+}
+
+.label-amount {
+  margin-bottom: 3px;
+}
+
+label {
+  font-size: 17px;
+}

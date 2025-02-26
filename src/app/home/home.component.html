@@ -3,7 +3,7 @@
 <div class="container">
   <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
     <div class="form-control">
-      <label for="text">Email</label>
+      <label for="text">Email<sup>*</sup></label>
       <input
         type="email"
         #text="ngModel"
@@ -14,7 +14,7 @@
       />
     </div>
     <div class="form-control">
-      <label for="text">Password</label>
+      <label for="text">Password<sup>*</sup></label>
       <input
         type="password"
         #text="ngModel"

@@ -13,7 +13,7 @@ export class AuthService {
 
   constructor() {
     if (sessionStorage["x-user"]) {
-      const user = JSON.parse(localStorage.getItem("User"));
+      const user = JSON.parse(sessionStorage.getItem("x-user"));
       this.updateUser(user);
     }
   }

@@ -14,6 +14,7 @@ import { TransactionService } from "../transaction.service";
 export class AddTransactionComponent {
   private readonly transactionService = inject(TransactionService);
   public readonly transactions = this.transactionService.publicTransactions;
+  public category = "-";
 
   onSubmit(form: NgForm) {
     const transaction: Transaction = form.value;

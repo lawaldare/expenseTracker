@@ -118,6 +118,11 @@ h4 {
 label {
   display: inline-block;
   margin: 10px 0;
+
+  sup {
+    color: red;
+    font-weight: 800;
+  }
 }
 
 input[type="text"],
@@ -161,6 +166,11 @@ select {
   margin: 10px 0;
   padding: 10px;
   width: 100%;
+
+  &:disabled {
+    background-color: #8770fa8c;
+    cursor: not-allowed;
+  }
 }
 
 .btn:focus,
@@ -172,6 +182,8 @@ select {
   list-style-type: none;
   padding: 0;
   margin-bottom: 40px;
+  height: 250px;
+  overflow: scroll;
 }
 
 .list li {

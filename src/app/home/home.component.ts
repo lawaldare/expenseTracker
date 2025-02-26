@@ -13,7 +13,6 @@ import { AuthService } from "../auth.service";
   styleUrl: "./home.component.scss",
 })
 export class HomeComponent {
-  private readonly transactionService = inject(TransactionService);
   private readonly authService = inject(AuthService);
 
   private readonly router = inject(Router);

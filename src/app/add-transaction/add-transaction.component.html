@@ -13,11 +13,33 @@
     />
   </div>
   <div class="form-control">
-    <label for="amount">Amount</label>
-    <select #category="ngModel" ngModel name="category">
+    <label for="amount" class="label-amount">Amount</label>
+    <div class="radio-container">
+      <div class="radio">
+        <input
+          type="radio"
+          id="expense"
+          name="category"
+          value="-"
+          [ngModel]="category"
+        />
+        <label for="expense">Expense</label>
+      </div>
+      <div class="radio">
+        <input
+          type="radio"
+          id="income"
+          name="category"
+          value="+"
+          [ngModel]="category"
+        />
+        <label for="income">Income</label>
+      </div>
+    </div>
+    <!-- <select #category="ngModel" ngModel name="category">
       <option value="-">Expense</option>
       <option value="+">Income</option>
-    </select>
+    </select> -->
     <input
       type="number"
       #amount="ngModel"

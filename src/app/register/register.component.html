@@ -3,29 +3,29 @@
 <div class="container">
   <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
     <div class="form-control">
-      <label for="text">First Name</label>
+      <label for="text">First Name<sup>*</sup></label>
       <input
         type="text"
         #text="ngModel"
         ngModel
         name="firstName"
-        placeholder="Enter your full name..."
+        placeholder="Enter your first name..."
         required
       />
     </div>
     <div class="form-control">
-      <label for="text">Last Name</label>
+      <label for="text">Last Name<sup>*</sup></label>
       <input
         type="text"
         #text="ngModel"
         ngModel
         name="lastName"
-        placeholder="Enter your full name..."
+        placeholder="Enter your last name..."
         required
       />
     </div>
     <div class="form-control">
-      <label for="text">Email</label>
+      <label for="text">Email<sup>*</sup></label>
       <input
         type="email"
         #text="ngModel"
@@ -36,7 +36,7 @@
       />
     </div>
     <div class="form-control">
-      <label for="text">Password</label>
+      <label for="text">Password<sup>*</sup></label>
       <input
         type="password"
         #text="ngModel"
