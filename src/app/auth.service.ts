@@ -1,5 +1,5 @@
 import { Injectable, signal } from "@angular/core";
-import { ID } from "appwrite";
+import { ID, Models } from "appwrite";
 import { account, database } from "src/appwriteConfig";
 import { User, UserRegister } from "./transaction.model";
 import { environment } from "src/environments/environment";
@@ -68,5 +68,14 @@ export class AuthService {
 
   public updateUser(user: any): void {
     this.user.set(user);
+  }
+
+  async getSessions(): Promise<Models.Session[]> {
+    try {
+      const sessions = (await account.listSessions()).sessions;
+      return sessions;
+    } catch (error) {
+      console.error(error);
+    }
   }
 }

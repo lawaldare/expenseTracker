@@ -80,12 +80,12 @@ export class TransactionService {
       type: "CanadaDollars",
       label: "CAD",
     },
-    {
-      name: "Naira",
-      symbol: "₦",
-      type: "Naira",
-      label: "NGN",
-    },
+    // {
+    //   name: "Naira",
+    //   symbol: "₦",
+    //   type: "Naira",
+    //   label: "NGN",
+    // },
   ];
 
   public selectedCurrencyType = computed(() => {

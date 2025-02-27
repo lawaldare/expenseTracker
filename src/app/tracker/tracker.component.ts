@@ -1,6 +1,6 @@
 import { AuthService } from "./../auth.service";
 import { CommonModule } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { Component, inject, OnDestroy } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import html2pdf from "html2pdf.js";
 import { AddTransactionComponent } from "../add-transaction/add-transaction.component";
@@ -22,7 +22,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./tracker.component.scss"],
   standalone: true,
 })
-export class TrackerComponent {
+export class TrackerComponent implements OnDestroy {
   private readonly transactionService = inject(TransactionService);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
@@ -57,5 +57,9 @@ export class TrackerComponent {
     await this.authService.logoutUser();
     sessionStorage.removeItem("x-user");
     this.router.navigate(["/"]);
+  }
+
+  async ngOnDestroy(): Promise<void> {
+    await this.authService.logoutUser();
   }
 }
