@@ -1,8 +1,9 @@
-import { Injectable, signal } from "@angular/core";
+import { inject, Injectable, signal } from "@angular/core";
 import { ID, Models } from "appwrite";
 import { account, database } from "src/appwriteConfig";
 import { User, UserRegister } from "./transaction.model";
 import { environment } from "src/environments/environment";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root",
@@ -10,10 +11,11 @@ import { environment } from "src/environments/environment";
 export class AuthService {
   private user = signal<User>({} as any);
   public publicUser = this.user.asReadonly();
+  private readonly router = inject(Router);
 
   constructor() {
-    if (sessionStorage["x-user"]) {
-      const user = JSON.parse(sessionStorage.getItem("x-user"));
+    if (sessionStorage["x-session"]) {
+      const user = this.getSession();
       this.updateUser(user);
     }
   }
@@ -39,7 +41,7 @@ export class AuthService {
         }
       );
       this.updateUser(user);
-      sessionStorage.setItem("x-user", JSON.stringify(user));
+      this.setSession(user);
     } catch (error) {
       console.error(error);
     }
@@ -52,7 +54,7 @@ export class AuthService {
         userLogin.password
       );
       this.updateUser(user);
-      sessionStorage.setItem("x-user", JSON.stringify(user));
+      this.setSession(user);
     } catch (error) {
       console.error(error);
     }
@@ -61,6 +63,7 @@ export class AuthService {
   async logoutUser() {
     try {
       await account.deleteSession("current");
+      this.deleteSession();
     } catch (error) {
       console.error(error);
     }
@@ -70,12 +73,28 @@ export class AuthService {
     this.user.set(user);
   }
 
-  async getSessions(): Promise<Models.Session[]> {
+  async getSessions(): Promise<Models.Session> {
     try {
-      const sessions = (await account.listSessions()).sessions;
+      const sessionList = await account.listSessions();
+      const sessions = sessionList.sessions[0];
+      this.setSession(sessions);
+      this.updateUser(sessions);
+      this.router.navigate(["tracker"]);
       return sessions;
     } catch (error) {
       console.error(error);
     }
+  }
+
+  public setSession(data: any): void {
+    sessionStorage.setItem("x-session", JSON.stringify(data));
+  }
+
+  public getSession(): any {
+    return JSON.parse(sessionStorage.getItem("x-session"));
+  }
+
+  public deleteSession(): void {
+    sessionStorage.removeItem("x-session");
   }
 }

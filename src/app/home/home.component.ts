@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, signal } from "@angular/core";
+import { Component, inject, OnInit, signal } from "@angular/core";
 import { FormsModule, NgForm } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
 import { AuthService } from "../auth.service";
@@ -10,10 +10,14 @@ import { AuthService } from "../auth.service";
   templateUrl: "./home.component.html",
   styleUrl: "./home.component.scss",
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   private readonly authService = inject(AuthService);
 
   private readonly router = inject(Router);
+
+  async ngOnInit(): Promise<void> {
+    await this.authService.getSessions();
+  }
 
   async onSubmit(form: NgForm) {
     // const sessions = await this.authService.getSessions();
