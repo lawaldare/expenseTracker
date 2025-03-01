@@ -218,6 +218,37 @@ export class TransactionService {
     }
   }
 
+  public async deleteAllTransactions() {
+    try {
+      const session = this.authService.getSession();
+      const userId = session.userId
+        ? session.userId
+        : session["targets"][0].userId;
+      const list = await database.listDocuments(
+        environment.databaseId,
+        environment.transactionCollectionId,
+        [Query.equal("userId", userId)]
+      );
+      const data = list.documents;
+
+      for (const doc of data) {
+        await database.deleteDocument(
+          environment.databaseId,
+          environment.transactionCollectionId,
+          doc.$id
+        );
+      }
+
+      this.getTransactions(userId);
+      this.toast.success("All transactions deleted successfully");
+
+      // this.updateTransaction(data);
+    } catch (error) {
+      console.error(error);
+      this.toast.error("Error Occurred, please try again later!");
+    }
+  }
+
   public async deleteTransaction(transaction: any) {
     try {
       const response = await database.deleteDocument(

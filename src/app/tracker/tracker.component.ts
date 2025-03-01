@@ -55,7 +55,12 @@ export class TrackerComponent implements OnInit {
   }
 
   public deleteAllTransaction(): void {
-    this.transactionService.updateTransaction([]);
+    const response = confirm(
+      "Are you sure you want to delete all transactions?"
+    );
+    if (response) {
+      this.transactionService.deleteAllTransactions();
+    }
   }
 
   public exportAsPDF(): void {
