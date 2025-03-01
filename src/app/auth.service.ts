@@ -4,6 +4,7 @@ import { account, database } from "src/appwriteConfig";
 import { User, UserRegister } from "./transaction.model";
 import { environment } from "src/environments/environment";
 import { Router } from "@angular/router";
+import { HotToastService } from "@ngxpert/hot-toast";
 
 @Injectable({
   providedIn: "root",
@@ -12,6 +13,7 @@ export class AuthService {
   private user = signal<User>({} as any);
   public publicUser = this.user.asReadonly();
   private readonly router = inject(Router);
+  private readonly toast = inject(HotToastService);
 
   constructor() {
     if (sessionStorage["x-session"]) {
@@ -55,8 +57,11 @@ export class AuthService {
       );
       this.updateUser(user);
       this.setSession(user);
+      this.toast.success("Welcome back 🎉");
+      this.router.navigate(["tracker"]);
     } catch (error) {
       console.error(error);
+      this.toast.error("Invalid email or password!");
     }
   }
 
@@ -90,7 +95,7 @@ export class AuthService {
     sessionStorage.setItem("x-session", JSON.stringify(data));
   }
 
-  public getSession(): any {
+  public getSession(): Models.Session {
     return JSON.parse(sessionStorage.getItem("x-session"));
   }
 

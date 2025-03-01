@@ -3,6 +3,7 @@ import { Component, inject, OnInit, signal } from "@angular/core";
 import { FormsModule, NgForm } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
 import { AuthService } from "../auth.service";
+import { HotToastService } from "@ngxpert/hot-toast";
 
 @Component({
   selector: "app-home",
@@ -12,6 +13,7 @@ import { AuthService } from "../auth.service";
 })
 export class HomeComponent implements OnInit {
   private readonly authService = inject(AuthService);
+  private readonly toast = inject(HotToastService);
 
   private readonly router = inject(Router);
 
@@ -20,12 +22,6 @@ export class HomeComponent implements OnInit {
   }
 
   async onSubmit(form: NgForm) {
-    // const sessions = await this.authService.getSessions();
-    // if (sessions.length) {
-    //   await this.authService.logoutUser();
-    // }
-    this.authService.signIn(form.value).then((response) => {
-      this.router.navigate(["tracker"]);
-    });
+    this.authService.signIn(form.value);
   }
 }

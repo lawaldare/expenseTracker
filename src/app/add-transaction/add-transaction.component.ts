@@ -20,8 +20,9 @@ export class AddTransactionComponent {
     const transaction: Transaction = form.value;
     transaction.id = this.transactionService.generateID();
     transaction.timeStamp = new Date();
-    const updatedTransactions = [...this.transactions(), transaction];
-    this.transactionService.updateTransaction(updatedTransactions);
+    this.transactionService.saveTransaction(transaction);
+    // const updatedTransactions = [...this.transactions(), transaction];
+    // this.transactionService.updateTransaction(updatedTransactions);
     form.resetForm();
   }
 }

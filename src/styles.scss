@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
+@use "@ngxpert/hot-toast/src/styles/styles.scss";
 @import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
 
 :root {
@@ -220,23 +221,25 @@ select {
 
 .delete-btn {
   cursor: pointer;
-  background-color: #e74c3c;
+  background-color: transparent;
   border: 0;
-  color: #fff;
+  color: #000;
   font-size: 20px;
   line-height: 20px;
   padding: 2px 5px;
   position: absolute;
   top: 50%;
-  left: 0;
+  right: -65px;
   transform: translate(-100%, -50%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  // opacity: 0;
+  // transition: opacity 0.3s ease;
+  border-radius: 4px;
+  border: 1px solid #e74c3c;
 }
 
-.list li:hover .delete-btn {
-  opacity: 1;
-}
+// .list li:hover .delete-btn {
+//   opacity: 1;
+// }
 
 @media (max-width: 523px) {
   .container {

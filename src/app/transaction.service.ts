@@ -1,7 +1,11 @@
 import { computed, inject, Injectable, signal } from "@angular/core";
 import { Transaction, User } from "./transaction.model";
 import { HttpClient } from "@angular/common/http";
-import { Models } from "appwrite";
+import { ID, Models, Query } from "appwrite";
+import { database } from "src/appwriteConfig";
+import { environment } from "src/environments/environment";
+import { AuthService } from "./auth.service";
+import { HotToastService } from "@ngxpert/hot-toast";
 
 export interface Currency {
   name: string;
@@ -23,6 +27,9 @@ export type CurrencyType =
 })
 export class TransactionService {
   private http = inject(HttpClient);
+  private authService = inject(AuthService);
+  private readonly toast = inject(HotToastService);
+
   private transactions = signal<Transaction[]>([]);
   public publicTransactions = this.transactions.asReadonly();
 
@@ -105,10 +112,10 @@ export class TransactionService {
   });
 
   constructor() {
-    if (localStorage["transactions"]) {
-      const transactions = JSON.parse(localStorage.getItem("transactions"));
-      this.updateTransaction(transactions);
-    }
+    // if (localStorage["transactions"]) {
+    //   const transactions = JSON.parse(localStorage.getItem("transactions"));
+    //   this.updateTransaction(transactions);
+    // }
 
     if (localStorage["currency"]) {
       const currency = JSON.parse(localStorage.getItem("currency"));
@@ -138,7 +145,7 @@ export class TransactionService {
     this.updateTransaction(updatedTransactions);
   }
 
-  public updateTransaction(trans: Transaction[]) {
+  public updateTransaction(trans: any[]) {
     this.transactions.set(trans);
     localStorage.setItem("transactions", JSON.stringify(this.transactions()));
   }
@@ -152,8 +159,8 @@ export class TransactionService {
     this.previousCurrencyLabel.set(str);
   }
 
-  public generateID(): number {
-    return Math.floor(Math.random() * 100000000);
+  public generateID(): string {
+    return ID.unique(15);
   }
 
   public totalIncome = computed(() => {
@@ -167,4 +174,66 @@ export class TransactionService {
   public totalBalance = computed(
     () => this.totalIncome() - this.totalExpense()
   );
+
+  public async saveTransaction(transaction: Transaction) {
+    try {
+      const documentId = this.generateID();
+      const session = this.authService.getSession();
+      const userId = session.userId
+        ? session.userId
+        : session["targets"][0].userId;
+      // console.log(session["targets"][0].userid);
+      await database.createDocument(
+        environment.databaseId,
+        environment.transactionCollectionId,
+        documentId,
+        {
+          userId,
+          text: transaction.text,
+          timeStamp: transaction.timeStamp,
+          category: transaction.category,
+          id: transaction.id,
+          amount: transaction.amount,
+        }
+      );
+      this.getTransactions(userId);
+    } catch (error) {
+      console.error(error);
+      this.toast.error("Error Occurred, please try again later!");
+    }
+  }
+
+  public async getTransactions(userId: string) {
+    try {
+      const list = await database.listDocuments(
+        environment.databaseId,
+        environment.transactionCollectionId,
+        [Query.equal("userId", userId)]
+      );
+      const data = list.documents;
+      this.updateTransaction(data);
+    } catch (error) {
+      console.error(error);
+      this.toast.error("Error Occurred, please try again later!");
+    }
+  }
+
+  public async deleteTransaction(transaction: any) {
+    try {
+      const response = await database.deleteDocument(
+        environment.databaseId,
+        environment.transactionCollectionId,
+        transaction.$id
+      );
+
+      this.getTransactions(transaction.userId);
+      this.toast.success("Transaction deleted successfully");
+
+      // this.updateTransaction(data);
+      console.log(response);
+    } catch (error) {
+      this.toast.error("Error Occurred, please try again later!");
+      console.error(error);
+    }
+  }
 }

@@ -1,9 +1,10 @@
 export interface Transaction {
-  id: number;
+  id: string;
   text: string;
   category: string;
   amount: number;
   timeStamp: Date;
+  userId: string;
 }
 
 export interface Target {

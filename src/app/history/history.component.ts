@@ -15,10 +15,12 @@ export class HistoryComponent {
   public readonly selectedCurrencySymbol =
     this.transactionService.selectedCurrencySymbol;
 
-  public deleteTransaction(id): void {
-    const transactions = this.transactions().filter(
-      (transaction) => transaction.id !== id
+  public deleteTransaction(transaction): void {
+    const response = confirm(
+      "Are you sure you want to delete this transaction?"
     );
-    this.transactionService.updateTransaction(transactions);
+    if (response) {
+      this.transactionService.deleteTransaction(transaction);
+    }
   }
 }

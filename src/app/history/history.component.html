@@ -14,8 +14,8 @@
       }}</span>
     </div>
     <span class="timestamp">{{ transaction.timeStamp | date : "medium" }}</span>
-    <button class="delete-btn" (click)="deleteTransaction(transaction.id)">
-      x
+    <button class="delete-btn" (click)="deleteTransaction(transaction)">
+      <i class="ph ph-trash"></i>
     </button>
   </li>
 </ul>

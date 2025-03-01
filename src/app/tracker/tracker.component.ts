@@ -1,6 +1,6 @@
 import { AuthService } from "./../auth.service";
 import { CommonModule } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import html2pdf from "html2pdf.js";
 import { AddTransactionComponent } from "../add-transaction/add-transaction.component";
@@ -8,6 +8,8 @@ import { HistoryComponent } from "../history/history.component";
 import { TotalIncomeExpensesComponent } from "../total-income-expenses/total-income-expenses.component";
 import { TransactionService, CurrencyType } from "../transaction.service";
 import { Router } from "@angular/router";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 @Component({
   selector: "app-tracker",
@@ -22,7 +24,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./tracker.component.scss"],
   standalone: true,
 })
-export class TrackerComponent {
+export class TrackerComponent implements OnInit {
   private readonly transactionService = inject(TransactionService);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
@@ -34,6 +36,14 @@ export class TrackerComponent {
   public selectedCurrencyType = this.transactionService.selectedCurrencyType();
   public selectedCurrencySymbol =
     this.transactionService.selectedCurrencySymbol;
+
+  ngOnInit(): void {
+    const session = this.authService.getSession();
+    const userId = session.userId
+      ? session.userId
+      : session["targets"][0].userId;
+    this.transactionService.getTransactions(userId);
+  }
 
   public changeCurrency(currencyType: CurrencyType): void {
     this.transactionService.setPreviousCurrency(
@@ -49,8 +59,18 @@ export class TrackerComponent {
   }
 
   public exportAsPDF(): void {
-    const element: any = document.getElementById("htmlData");
-    html2pdf(element);
+    // const element: any = document.getElementById("htmlData");
+    // html2pdf(element);
+    let DATA: any = document.getElementById("htmlData");
+    html2canvas(DATA).then((canvas) => {
+      let fileWidth = 208;
+      let fileHeight = (canvas.height * fileWidth) / canvas.width;
+      const FILEURI = canvas.toDataURL("image/png");
+      let PDF = new jsPDF("p", "mm", "a4");
+      let position = 0;
+      PDF.addImage(FILEURI, "PNG", 0, position, fileWidth, fileHeight);
+      PDF.save("receipt.pdf");
+    });
   }
 
   public async logout(): Promise<void> {
