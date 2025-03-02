@@ -37,8 +37,8 @@ export class TrackerComponent implements OnInit {
   public selectedCurrencySymbol =
     this.transactionService.selectedCurrencySymbol;
 
-  ngOnInit(): void {
-    const userId = this.authService.getUserId();
+  async ngOnInit(): Promise<void> {
+    const userId = await this.authService.getUserId();
     this.transactionService.getTransactions(userId);
   }
 

@@ -124,8 +124,8 @@ export class AuthService {
     }
   }
 
-  public getUserId(): string {
-    const user = this.getUserLocally();
+  public async getUserId(): Promise<string> {
+    const user = await account.get();
     return user.targets[0].userId;
   }
 }
