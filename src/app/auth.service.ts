@@ -47,6 +47,7 @@ export class AuthService {
       this.router.navigate(["tracker"]);
     } catch (error) {
       console.error(error);
+      this.toast.error("Error occurred, please try again later");
     }
   }
 
