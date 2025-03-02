@@ -178,11 +178,7 @@ export class TransactionService {
   public async saveTransaction(transaction: Transaction) {
     try {
       const documentId = this.generateID();
-      const session = this.authService.getSession();
-      const userId = session.userId
-        ? session.userId
-        : session["targets"][0].userId;
-      // console.log(session["targets"][0].userid);
+      const userId = this.authService.getUserId();
       await database.createDocument(
         environment.databaseId,
         environment.transactionCollectionId,
@@ -220,10 +216,7 @@ export class TransactionService {
 
   public async deleteAllTransactions() {
     try {
-      const session = this.authService.getSession();
-      const userId = session.userId
-        ? session.userId
-        : session["targets"][0].userId;
+      const userId = this.authService.getUserId();
       const list = await database.listDocuments(
         environment.databaseId,
         environment.transactionCollectionId,

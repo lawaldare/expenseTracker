@@ -16,9 +16,8 @@ export class AuthService {
   private readonly toast = inject(HotToastService);
 
   constructor() {
-    if (sessionStorage["x-session"]) {
-      const user = this.getSession();
-      this.updateUser(user);
+    if (sessionStorage["x-user"]) {
+      this.getAndSaveUserLocally();
     }
   }
 
@@ -30,7 +29,6 @@ export class AuthService {
         newUser.password,
         `${newUser.firstName} ${newUser.lastName}`
       );
-      console.log(user);
       await database.createDocument(
         environment.databaseId,
         environment.userCollectionId,
@@ -55,9 +53,9 @@ export class AuthService {
         userLogin.email,
         userLogin.password
       );
-      this.updateUser(user);
       this.setSession(user);
-      this.toast.success("Welcome back 🎉");
+      this.getAndSaveUserLocally();
+      this.toast.success(`Welcome back 🎉`);
       this.router.navigate(["tracker"]);
     } catch (error) {
       console.error(error);
@@ -101,5 +99,29 @@ export class AuthService {
 
   public deleteSession(): void {
     sessionStorage.removeItem("x-session");
+    sessionStorage.removeItem("x-user");
+  }
+
+  public saveUserLocally(data: Models.User<Models.Preferences>): void {
+    sessionStorage.setItem("x-user", JSON.stringify(data));
+  }
+
+  public getUserLocally(): Models.User<Models.Preferences> {
+    return JSON.parse(sessionStorage.getItem("x-user"));
+  }
+
+  public async getAndSaveUserLocally() {
+    try {
+      const user = await account.get();
+      this.updateUser(user);
+      this.saveUserLocally(user);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  public getUserId(): string {
+    const user = this.getUserLocally();
+    return user.targets[0].userId;
   }
 }

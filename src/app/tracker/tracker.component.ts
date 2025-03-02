@@ -38,10 +38,7 @@ export class TrackerComponent implements OnInit {
     this.transactionService.selectedCurrencySymbol;
 
   ngOnInit(): void {
-    const session = this.authService.getSession();
-    const userId = session.userId
-      ? session.userId
-      : session["targets"][0].userId;
+    const userId = this.authService.getUserId();
     this.transactionService.getTransactions(userId);
   }
 
