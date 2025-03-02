@@ -40,8 +40,11 @@ export class AuthService {
           email: newUser.email,
         }
       );
-      this.updateUser(user);
+      // this.updateUser(user);
       this.setSession(user);
+      this.getAndSaveUserLocally();
+      this.toast.success(`Registration successful`);
+      this.router.navigate(["tracker"]);
     } catch (error) {
       console.error(error);
     }

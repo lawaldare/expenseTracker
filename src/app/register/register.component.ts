@@ -12,12 +12,8 @@ import { AuthService } from "../auth.service";
 })
 export class RegisterComponent {
   private readonly authService = inject(AuthService);
-  private readonly router = inject(Router);
 
   onSubmit(form: NgForm) {
-    console.log(form.value);
-    this.authService.signUp(form.value).then((response) => {
-      this.router.navigate(["tracker"]);
-    });
+    this.authService.signUp(form.value);
   }
 }
