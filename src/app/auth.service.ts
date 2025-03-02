@@ -110,9 +110,9 @@ export class AuthService {
     sessionStorage.setItem("x-user", JSON.stringify(data));
   }
 
-  public getUserLocally(): Models.User<Models.Preferences> {
-    return JSON.parse(sessionStorage.getItem("x-user"));
-  }
+  // public getUserLocally(): Models.User<Models.Preferences> {
+  //   return JSON.parse(sessionStorage.getItem("x-user"));
+  // }
 
   public async getAndSaveUserLocally() {
     try {
