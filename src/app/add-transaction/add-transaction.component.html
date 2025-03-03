@@ -1,55 +1,57 @@
-<h3>Add new transaction</h3>
+<main>
+  <h3>Add new transaction</h3>
 
-<form #transactionForm="ngForm" (ngSubmit)="onSubmit(transactionForm)">
-  <div class="form-control">
-    <label for="text">Text</label>
-    <input
-      type="text"
-      #text="ngModel"
-      ngModel
-      name="text"
-      placeholder="Enter text..."
-      required
-    />
-  </div>
-  <div class="form-control">
-    <label for="amount" class="label-amount">Amount</label>
-    <div class="radio-container">
-      <div class="radio">
-        <input
-          type="radio"
-          id="expense"
-          name="category"
-          value="-"
-          [ngModel]="category"
-        />
-        <label for="expense">Expense</label>
-      </div>
-      <div class="radio">
-        <input
-          type="radio"
-          id="income"
-          name="category"
-          value="+"
-          [ngModel]="category"
-        />
-        <label for="income">Income</label>
-      </div>
+  <form #transactionForm="ngForm" (ngSubmit)="onSubmit(transactionForm)">
+    <div class="form-control">
+      <label for="text">Text</label>
+      <input
+        type="text"
+        #text="ngModel"
+        ngModel
+        name="text"
+        placeholder="Enter text..."
+        required
+      />
     </div>
-    <!-- <select #category="ngModel" ngModel name="category">
+    <div class="form-control">
+      <label for="amount" class="label-amount">Amount</label>
+      <div class="radio-container">
+        <div class="radio">
+          <input
+            type="radio"
+            id="expense"
+            name="category"
+            value="-"
+            [ngModel]="category"
+          />
+          <label for="expense">Expense</label>
+        </div>
+        <div class="radio">
+          <input
+            type="radio"
+            id="income"
+            name="category"
+            value="+"
+            [ngModel]="category"
+          />
+          <label for="income">Income</label>
+        </div>
+      </div>
+      <!-- <select #category="ngModel" ngModel name="category">
       <option value="-">Expense</option>
       <option value="+">Income</option>
     </select> -->
-    <input
-      type="number"
-      #amount="ngModel"
-      ngModel
-      name="amount"
-      placeholder="Enter amount..."
-      required
-    />
-  </div>
-  <button class="btn" [disabled]="transactionForm.invalid">
-    Add transaction
-  </button>
-</form>
+      <input
+        type="number"
+        #amount="ngModel"
+        ngModel
+        name="amount"
+        placeholder="Enter amount..."
+        required
+      />
+    </div>
+    <button class="btn" [disabled]="transactionForm.invalid">
+      Add transaction
+    </button>
+  </form>
+</main>

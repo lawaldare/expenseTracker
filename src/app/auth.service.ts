@@ -126,6 +126,6 @@ export class AuthService {
 
   public async getUserId(): Promise<string> {
     const user = await account.get();
-    return user.targets[0].userId;
+    return user.targets[0]?.userId;
   }
 }

@@ -1,52 +1,54 @@
-<h1 class="underline">Sign Up</h1>
+<main>
+  <h1 class="underline">Sign Up</h1>
 
-<div class="container">
-  <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
-    <div class="form-control">
-      <label for="text">First Name<sup>*</sup></label>
-      <input
-        type="text"
-        #text="ngModel"
-        ngModel
-        name="firstName"
-        placeholder="Enter your first name..."
-        required
-      />
-    </div>
-    <div class="form-control">
-      <label for="text">Last Name<sup>*</sup></label>
-      <input
-        type="text"
-        #text="ngModel"
-        ngModel
-        name="lastName"
-        placeholder="Enter your last name..."
-        required
-      />
-    </div>
-    <div class="form-control">
-      <label for="text">Email<sup>*</sup></label>
-      <input
-        type="email"
-        #text="ngModel"
-        ngModel
-        name="email"
-        placeholder="Enter your email..."
-        required
-      />
-    </div>
-    <div class="form-control">
-      <label for="text">Password<sup>*</sup></label>
-      <input
-        type="password"
-        #text="ngModel"
-        ngModel
-        name="password"
-        placeholder="Enter your password..."
-        required
-      />
-    </div>
-    <button class="btn" [disabled]="registerForm.invalid">Sign Up</button>
-  </form>
-  <p class="footer">Have an account? <span routerLink="/">Sign in</span></p>
-</div>
+  <div class="container">
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+      <div class="form-control">
+        <label for="text">First Name<sup>*</sup></label>
+        <input
+          type="text"
+          #text="ngModel"
+          ngModel
+          name="firstName"
+          placeholder="Enter your first name..."
+          required
+        />
+      </div>
+      <div class="form-control">
+        <label for="text">Last Name<sup>*</sup></label>
+        <input
+          type="text"
+          #text="ngModel"
+          ngModel
+          name="lastName"
+          placeholder="Enter your last name..."
+          required
+        />
+      </div>
+      <div class="form-control">
+        <label for="text">Email<sup>*</sup></label>
+        <input
+          type="email"
+          #text="ngModel"
+          ngModel
+          name="email"
+          placeholder="Enter your email..."
+          required
+        />
+      </div>
+      <div class="form-control">
+        <label for="text">Password<sup>*</sup></label>
+        <input
+          type="password"
+          #text="ngModel"
+          ngModel
+          name="password"
+          placeholder="Enter your password..."
+          required
+        />
+      </div>
+      <button class="btn" [disabled]="registerForm.invalid">Sign Up</button>
+    </form>
+    <p class="footer">Have an account? <span routerLink="/">Sign in</span></p>
+  </div>
+</main>

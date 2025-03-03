@@ -1,32 +1,34 @@
-<h1 class="underline">Sign In</h1>
+<main>
+  <h1 class="underline">Sign In</h1>
 
-<div class="container">
-  <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-    <div class="form-control">
-      <label for="text">Email<sup>*</sup></label>
-      <input
-        type="email"
-        #text="ngModel"
-        ngModel
-        name="email"
-        placeholder="Enter your email..."
-        required
-      />
-    </div>
-    <div class="form-control">
-      <label for="text">Password<sup>*</sup></label>
-      <input
-        type="password"
-        #text="ngModel"
-        ngModel
-        name="password"
-        placeholder="Enter your password..."
-        required
-      />
-    </div>
-    <button class="btn" [disabled]="loginForm.invalid">Sign In</button>
-  </form>
-  <p class="footer">
-    Don't have an account? <span routerLink="/register">Sign up</span>
-  </p>
-</div>
+  <div class="container">
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+      <div class="form-control">
+        <label for="text">Email<sup>*</sup></label>
+        <input
+          type="email"
+          #text="ngModel"
+          ngModel
+          name="email"
+          placeholder="Enter your email..."
+          required
+        />
+      </div>
+      <div class="form-control">
+        <label for="text">Password<sup>*</sup></label>
+        <input
+          type="password"
+          #text="ngModel"
+          ngModel
+          name="password"
+          placeholder="Enter your password..."
+          required
+        />
+      </div>
+      <button class="btn" [disabled]="loginForm.invalid">Sign In</button>
+    </form>
+    <p class="footer">
+      Don't have an account? <span routerLink="/register">Sign up</span>
+    </p>
+  </div>
+</main>
