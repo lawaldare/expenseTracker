@@ -1,4 +1,8 @@
 .add-transaction-dialog {
   max-width: 600px !important;
   width: 100%;
+
+  @media (max-width: 523px) {
+    max-width: 330px !important;
+  }
 }
