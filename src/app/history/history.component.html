@@ -1,4 +1,9 @@
-<h3>Transaction history</h3>
+<header>
+  <h3>Transaction history</h3>
+  <button class="btn" (click)="openAddTransactionDialog()">
+    + Add Transaction
+  </button>
+</header>
 <ul id="list" class="list">
   <li
     [ngClass]="{

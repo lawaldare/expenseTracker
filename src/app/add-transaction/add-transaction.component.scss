@@ -17,3 +17,14 @@
 label {
   font-size: 17px;
 }
+
+header {
+  border-bottom: 1px solid var(--primary-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h3 {
+  border: none !important;
+}

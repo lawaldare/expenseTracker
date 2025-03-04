@@ -1,6 +1,8 @@
 <main>
-  <h3>Add new transaction</h3>
-
+  <header>
+    <h3>Add new transaction</h3>
+    <i class="ph ph-x" (click)="dialogRef.close()"></i>
+  </header>
   <form #transactionForm="ngForm" (ngSubmit)="onSubmit(transactionForm)">
     <div class="form-control">
       <label for="text">Text</label>
