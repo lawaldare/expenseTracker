@@ -6,6 +6,7 @@ import { database } from "src/appwriteConfig";
 import { environment } from "src/environments/environment";
 import { AuthService } from "./auth.service";
 import { HotToastService } from "@ngxpert/hot-toast";
+import { jsPDF } from "jspdf";
 
 export interface Currency {
   name: string;
@@ -259,5 +260,55 @@ export class TransactionService {
       this.toast.error("Error Occurred, please try again later!");
       console.error(error);
     }
+  }
+
+  public exportAsPDF(): void {
+    const doc = new jsPDF({ putOnlyUsedFonts: true, orientation: "landscape" });
+    doc.setFont("Helvetica");
+    doc.setFontSize(24);
+    doc.text("Expense Tracker Report", 10, 20);
+    doc.setFontSize(18);
+    doc.text(
+      `Balance: ${this.totalBalance().toFixed(
+        2
+      )} | Income: ${this.totalIncome()} | Expenses: ${this.totalExpense()}`,
+      10,
+      30
+    );
+    doc.setFontSize(14);
+    const headers = this.createHeaders([
+      "text",
+      "amount",
+      "category",
+      "timeStamp",
+    ]);
+    const mappedTransaction = this.transactions().map((tr) => {
+      return {
+        ...tr,
+        category: tr.category === "+" ? "Income" : "Expenses",
+        timeStamp: new Date(tr.timeStamp).toDateString(),
+        amount: this.selectedCurrency().symbol + String(tr.amount),
+      };
+    });
+
+    const data = mappedTransaction as unknown as { [key: string]: string }[];
+
+    doc.table(10, 50, data, headers, { autoSize: true });
+    doc.save("report.pdf");
+  }
+
+  createHeaders(keys): any[] {
+    var result = [];
+    for (var i = 0; i < keys.length; i += 1) {
+      result.push({
+        id: keys[i],
+        name: keys[i],
+        prompt: keys[i],
+        width: 100,
+        align: "center",
+        padding: 0,
+      });
+    }
+    return result;
   }
 }

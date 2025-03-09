@@ -2,14 +2,10 @@ import { AuthService } from "./../auth.service";
 import { CommonModule } from "@angular/common";
 import { Component, inject, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import html2pdf from "html2pdf.js";
-import { AddTransactionComponent } from "../add-transaction/add-transaction.component";
 import { HistoryComponent } from "../history/history.component";
 import { TotalIncomeExpensesComponent } from "../total-income-expenses/total-income-expenses.component";
 import { TransactionService, CurrencyType } from "../transaction.service";
 import { Router } from "@angular/router";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
 
 @Component({
   selector: "app-tracker",
@@ -17,7 +13,6 @@ import html2canvas from "html2canvas";
     CommonModule,
     TotalIncomeExpensesComponent,
     HistoryComponent,
-    AddTransactionComponent,
     FormsModule,
   ],
   templateUrl: "./tracker.component.html",
@@ -61,18 +56,7 @@ export class TrackerComponent implements OnInit {
   }
 
   public exportAsPDF(): void {
-    // const element: any = document.getElementById("htmlData");
-    // html2pdf(element);
-    let DATA: any = document.getElementById("htmlData");
-    html2canvas(DATA).then((canvas) => {
-      let fileWidth = 208;
-      let fileHeight = (canvas.height * fileWidth) / canvas.width;
-      const FILEURI = canvas.toDataURL("image/png");
-      let PDF = new jsPDF("p", "mm", "a4");
-      let position = 0;
-      PDF.addImage(FILEURI, "PNG", 0, position, fileWidth, fileHeight);
-      PDF.save("receipt.pdf");
-    });
+    this.transactionService.exportAsPDF();
   }
 
   public async logout(): Promise<void> {
