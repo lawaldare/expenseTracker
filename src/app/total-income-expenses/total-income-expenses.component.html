@@ -1,14 +1,26 @@
 <div class="inc-exp-container">
   <div>
     <h4>Income</h4>
-    <p id="money-plus" class="money plus">
-      {{ totalIncome() | currency : selectedCurrencySymbol() }}
+    <p id="money-plus" class="money income">
+      {{ totalIncome() | currency: selectedCurrencySymbol() }}
     </p>
   </div>
   <div>
-    <h4>Expense</h4>
-    <p id="money-minus" class="money minus">
-      {{ totalExpense() | currency : selectedCurrencySymbol() }}
+    <h4>Expenses</h4>
+    <p id="money-minus" class="money expenses">
+      {{ totalExpenses() | currency: selectedCurrencySymbol() }}
+    </p>
+  </div>
+  <div>
+    <h4>Bills</h4>
+    <p id="money-minus" class="money bills">
+      {{ totalBills() | currency: selectedCurrencySymbol() }}
+    </p>
+  </div>
+  <div>
+    <h4>Investments</h4>
+    <p id="money-minus" class="money investments">
+      {{ totalInvestments() | currency: selectedCurrencySymbol() }}
     </p>
   </div>
 </div>

@@ -1,6 +1,11 @@
 import { AuthService } from "./../auth.service";
 import { CommonModule } from "@angular/common";
-import { Component, inject, OnInit } from "@angular/core";
+import {
+  Component,
+  inject,
+  OnInit,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { HistoryComponent } from "../history/history.component";
 import { TotalIncomeExpensesComponent } from "../total-income-expenses/total-income-expenses.component";
@@ -17,7 +22,7 @@ import { Router } from "@angular/router";
   ],
   templateUrl: "./tracker.component.html",
   styleUrls: ["./tracker.component.scss"],
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class TrackerComponent implements OnInit {
   private readonly transactionService = inject(TransactionService);
@@ -39,16 +44,18 @@ export class TrackerComponent implements OnInit {
 
   public changeCurrency(currencyType: CurrencyType): void {
     this.transactionService.setPreviousCurrency(
-      this.transactionService.currentCurrencyLabel()
+      this.transactionService.currentCurrencyLabel(),
     );
     const curr = this.currencies.find((curr) => curr.type === currencyType);
-    this.transactionService.updateSelectedCurrency(curr);
+    if (curr) {
+      this.transactionService.updateSelectedCurrency(curr);
+    }
     this.transactionService.updateCurrencies();
   }
 
   public deleteAllTransaction(): void {
     const response = confirm(
-      "Are you sure you want to delete all transactions?"
+      "Are you sure you want to delete all transactions?",
     );
     if (response) {
       this.transactionService.deleteAllTransactions();

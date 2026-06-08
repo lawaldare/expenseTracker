@@ -5,22 +5,27 @@
   </button>
 </header>
 <ul id="list" class="list">
-  <li
-    [ngClass]="{
-      minus: transaction.category === '-',
-      plus: transaction.category === '+'
-    }"
-    *ngFor="let transaction of transactions()"
-  >
-    <div>
-      <span>{{ transaction.text | titlecase }}</span>
-      <span>{{
-        transaction.amount | currency : selectedCurrencySymbol()
+  @for (transaction of transactions(); track transaction) {
+    <li
+      [ngClass]="{
+        income: transaction.category === 'income',
+        expenses: transaction.category === 'expenses',
+        bills: transaction.category === 'bills',
+        investments: transaction.category === 'investments',
+      }"
+    >
+      <div>
+        <span>{{ transaction.text | titlecase }}</span>
+        <span>{{
+          transaction.amount | currency: selectedCurrencySymbol()
+        }}</span>
+      </div>
+      <span class="timestamp">{{
+        transaction.timeStamp | date: "medium"
       }}</span>
-    </div>
-    <span class="timestamp">{{ transaction.timeStamp | date : "medium" }}</span>
-    <button class="delete-btn" (click)="deleteTransaction(transaction)">
-      <i class="ph ph-trash"></i>
-    </button>
-  </li>
+      <button class="delete-btn" (click)="deleteTransaction(transaction)">
+        <i class="ph ph-trash"></i>
+      </button>
+    </li>
+  }
 </ul>

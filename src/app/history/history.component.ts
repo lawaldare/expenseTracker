@@ -1,15 +1,17 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { Component, inject, ChangeDetectionStrategy } from "@angular/core";
 import { TransactionService } from "../transaction.service";
+import { Transaction } from "../transaction.model";
 import { MatDialog } from "@angular/material/dialog";
 import { MaterialModule } from "../material.module";
 import { AddTransactionComponent } from "../add-transaction/add-transaction.component";
 
 @Component({
   selector: "history",
-  imports: [CommonModule, MaterialModule, AddTransactionComponent],
+  imports: [CommonModule, MaterialModule],
   standalone: true,
   templateUrl: "./history.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: "./history.component.scss",
 })
 export class HistoryComponent {
@@ -18,9 +20,9 @@ export class HistoryComponent {
   public readonly selectedCurrencySymbol =
     this.transactionService.selectedCurrencySymbol;
   private readonly dialog = inject(MatDialog);
-  public deleteTransaction(transaction): void {
+  public deleteTransaction(transaction: Transaction): void {
     const response = confirm(
-      "Are you sure you want to delete this transaction?"
+      "Are you sure you want to delete this transaction?",
     );
     if (response) {
       this.transactionService.deleteTransaction(transaction);

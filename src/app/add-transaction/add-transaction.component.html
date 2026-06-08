@@ -21,19 +21,40 @@
         <div class="radio">
           <input
             type="radio"
-            id="expense"
+            id="bills"
             name="category"
-            value="-"
+            value="bills"
             [ngModel]="category"
           />
-          <label for="expense">Expense</label>
+          <label for="bills">Bills</label>
         </div>
+        <div class="radio">
+          <input
+            type="radio"
+            id="expenses"
+            name="category"
+            value="expenses"
+            [ngModel]="category"
+          />
+          <label for="expenses">Expenses</label>
+        </div>
+        <div class="radio">
+          <input
+            type="radio"
+            id="investments"
+            name="category"
+            value="investments"
+            [ngModel]="category"
+          />
+          <label for="investments">Investments</label>
+        </div>
+
         <div class="radio">
           <input
             type="radio"
             id="income"
             name="category"
-            value="+"
+            value="income"
             [ngModel]="category"
           />
           <label for="income">Income</label>

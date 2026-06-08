@@ -1,10 +1,10 @@
 import { inject, Injectable, signal } from "@angular/core";
 import { ID, Models } from "appwrite";
-import { account, database } from "src/appwriteConfig";
 import { User, UserRegister } from "./transaction.model";
-import { environment } from "src/environments/environment";
 import { Router } from "@angular/router";
 import { HotToastService } from "@ngxpert/hot-toast";
+import { account, database } from "../appwriteConfig";
+import { environment } from "../environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -27,7 +27,7 @@ export class AuthService {
         ID.unique(),
         newUser.email,
         newUser.password,
-        `${newUser.firstName} ${newUser.lastName}`
+        `${newUser.firstName} ${newUser.lastName}`,
       );
       await database.createDocument(
         environment.databaseId,
@@ -38,7 +38,7 @@ export class AuthService {
           first_name: newUser.firstName,
           last_name: newUser.lastName,
           email: newUser.email,
-        }
+        },
       );
       // this.updateUser(user);
       this.setSession(user);
@@ -55,7 +55,7 @@ export class AuthService {
     try {
       const user = await account.createEmailPasswordSession(
         userLogin.email,
-        userLogin.password
+        userLogin.password,
       );
       this.setSession(user);
       this.getAndSaveUserLocally();
@@ -80,7 +80,7 @@ export class AuthService {
     this.user.set(user);
   }
 
-  async getSessions(): Promise<Models.Session> {
+  async getSessions(): Promise<Models.Session | undefined> {
     try {
       const sessionList = await account.listSessions();
       const sessions = sessionList.sessions[0];
@@ -90,6 +90,7 @@ export class AuthService {
       return sessions;
     } catch (error) {
       console.error(error);
+      return undefined;
     }
   }
 
@@ -98,7 +99,7 @@ export class AuthService {
   }
 
   public getSession(): Models.Session {
-    return JSON.parse(sessionStorage.getItem("x-session"));
+    return JSON.parse(sessionStorage.getItem("x-session") ?? "null");
   }
 
   public deleteSession(): void {

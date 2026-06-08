@@ -1,12 +1,11 @@
 import { computed, inject, Injectable, signal } from "@angular/core";
-import { Transaction, User } from "./transaction.model";
-import { HttpClient } from "@angular/common/http";
-import { ID, Models, Query } from "appwrite";
-import { database } from "src/appwriteConfig";
-import { environment } from "src/environments/environment";
+import { Transaction } from "./transaction.model";
+import { ID, Query } from "appwrite";
 import { AuthService } from "./auth.service";
 import { HotToastService } from "@ngxpert/hot-toast";
 import { jsPDF } from "jspdf";
+import { database } from "../appwriteConfig";
+import { environment } from "../environments/environment";
 
 export interface Currency {
   name: string;
@@ -27,7 +26,6 @@ export type CurrencyType =
   providedIn: "root",
 })
 export class TransactionService {
-  private http = inject(HttpClient);
   private authService = inject(AuthService);
   private readonly toast = inject(HotToastService);
 
@@ -107,9 +105,9 @@ export class TransactionService {
 
   public selectedCurrencySymbol = computed(() => {
     const currency = this.currencies.find(
-      (curr) => curr.type === this.selectedCurrencyType()
+      (curr) => curr.type === this.selectedCurrencyType(),
     );
-    return currency.symbol;
+    return currency?.symbol ?? "";
   });
 
   constructor() {
@@ -119,7 +117,7 @@ export class TransactionService {
     // }
 
     if (localStorage["currency"]) {
-      const currency = JSON.parse(localStorage.getItem("currency"));
+      const currency = JSON.parse(localStorage.getItem("currency") ?? "null");
       this.updateSelectedCurrency(currency);
     } else {
       this.updateSelectedCurrency(this.currencies[0]);
@@ -136,7 +134,10 @@ export class TransactionService {
 
   public updateCurrencies(): void {
     const exchangeCurrencies = `${this.previousCurrencyLabel()}${this.currentCurrencyLabel()}`;
-    const rate = this.currencyConfig[exchangeCurrencies];
+    const rate =
+      this.currencyConfig[
+        exchangeCurrencies as keyof typeof this.currencyConfig
+      ];
     const updatedTransactions = this.transactions().map((transaction) => {
       return {
         ...transaction,
@@ -165,15 +166,34 @@ export class TransactionService {
   }
 
   public totalIncome = computed(() => {
-    const incomeArray = this.transactions().filter((a) => a.category === "+");
+    const incomeArray = this.transactions().filter(
+      (a) => a.category === "income",
+    );
     return incomeArray.reduce((a, b) => a + b.amount, 0);
   });
-  public totalExpense = computed(() => {
-    const expenseArray = this.transactions().filter((a) => a.category === "-");
+  public totalExpenses = computed(() => {
+    const expenseArray = this.transactions().filter(
+      (a) => a.category === "expenses",
+    );
+    return expenseArray.reduce((a, b) => a + b.amount, 0);
+  });
+
+  public totalInvestments = computed(() => {
+    const incomeArray = this.transactions().filter(
+      (a) => a.category === "investments",
+    );
+    return incomeArray.reduce((a, b) => a + b.amount, 0);
+  });
+  public totalBills = computed(() => {
+    const expenseArray = this.transactions().filter(
+      (a) => a.category === "bills",
+    );
     return expenseArray.reduce((a, b) => a + b.amount, 0);
   });
   public totalBalance = computed(
-    () => this.totalIncome() - this.totalExpense()
+    () =>
+      this.totalIncome() -
+      (this.totalExpenses() + this.totalBills() + this.totalInvestments()),
   );
 
   public async saveTransaction(transaction: Transaction) {
@@ -191,7 +211,7 @@ export class TransactionService {
           category: transaction.category,
           id: transaction.id,
           amount: transaction.amount,
-        }
+        },
       );
       this.getTransactions(userId);
     } catch (error) {
@@ -205,7 +225,7 @@ export class TransactionService {
       const list = await database.listDocuments(
         environment.databaseId,
         environment.transactionCollectionId,
-        [Query.equal("userId", userId)]
+        [Query.equal("userId", userId)],
       );
       const data = list.documents;
       this.updateTransaction(data);
@@ -221,7 +241,7 @@ export class TransactionService {
       const list = await database.listDocuments(
         environment.databaseId,
         environment.transactionCollectionId,
-        [Query.equal("userId", userId)]
+        [Query.equal("userId", userId)],
       );
       const data = list.documents;
 
@@ -229,7 +249,7 @@ export class TransactionService {
         await database.deleteDocument(
           environment.databaseId,
           environment.transactionCollectionId,
-          doc.$id
+          doc.$id,
         );
       }
 
@@ -248,7 +268,7 @@ export class TransactionService {
       const response = await database.deleteDocument(
         environment.databaseId,
         environment.transactionCollectionId,
-        transaction.$id
+        transaction.$id,
       );
 
       this.getTransactions(transaction.userId);
@@ -270,10 +290,10 @@ export class TransactionService {
     doc.setFontSize(18);
     doc.text(
       `Balance: ${this.totalBalance().toFixed(
-        2
-      )} | Income: ${this.totalIncome()} | Expenses: ${this.totalExpense()}`,
+        2,
+      )} | Income: ${this.totalIncome()} | Expenses: ${this.totalExpenses()}`,
       10,
-      30
+      30,
     );
     doc.setFontSize(14);
     const headers = this.createHeaders([
@@ -297,7 +317,7 @@ export class TransactionService {
     doc.save("report.pdf");
   }
 
-  createHeaders(keys): any[] {
+  createHeaders(keys: string[]): any[] {
     var result = [];
     for (var i = 0; i < keys.length; i += 1) {
       result.push({

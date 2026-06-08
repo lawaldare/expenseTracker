@@ -1,13 +1,14 @@
-import { CommonModule } from "@angular/common";
-import { Component, inject, OnInit } from "@angular/core";
+
+import { Component, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { FormsModule, NgForm } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { AuthService } from "../auth.service";
 
 @Component({
   selector: "app-home",
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [FormsModule, RouterModule],
   templateUrl: "./home.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: "./home.component.scss",
 })
 export class HomeComponent implements OnInit {
