@@ -12,6 +12,7 @@ import {
   form,
   FormField,
   FormRoot,
+  minLength,
   required,
 } from "@angular/forms/signals";
 
@@ -34,17 +35,24 @@ export class HomeComponent implements OnInit {
     email: "",
     password: "",
   });
-  protected readonly loginForm = form(this.loginModel, (s) => {
-    required(s.email);
-    email(s.email);
-    required(s.password);
-  });
+  protected readonly loginForm = form(
+    this.loginModel,
+    (s) => {
+      required(s.email);
+      email(s.email);
+      required(s.password);
+      minLength(s.password, 8);
+    },
+    {
+      submission: {
+        action: async (field) => {
+          await this.authService.signIn(field().value());
+        },
+      },
+    },
+  );
 
   async ngOnInit(): Promise<void> {
     await this.authService.getSessions();
-  }
-
-  async onSubmit() {
-    this.authService.signIn(this.loginModel());
   }
 }

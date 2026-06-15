@@ -38,16 +38,22 @@ export class RegisterComponent {
     email: "",
     password: "",
   });
-  protected readonly registerForm = form(this.registerModel, (s) => {
-    required(s.firstName);
-    required(s.lastName);
-    required(s.email);
-    email(s.email);
-    required(s.password);
-    minLength(s.password, 6);
-  });
-
-  onSubmit() {
-    this.authService.signUp(this.registerModel());
-  }
+  protected readonly registerForm = form(
+    this.registerModel,
+    (s) => {
+      required(s.firstName);
+      required(s.lastName);
+      required(s.email);
+      email(s.email);
+      required(s.password);
+      minLength(s.password, 8);
+    },
+    {
+      submission: {
+        action: async (field) => {
+          await this.authService.signUp(field().value());
+        },
+      },
+    },
+  );
 }
