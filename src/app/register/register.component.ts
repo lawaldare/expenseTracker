@@ -1,12 +1,30 @@
-
-import { Component, inject, ChangeDetectionStrategy } from "@angular/core";
-import { FormsModule, NgForm } from "@angular/forms";
-import { Router, RouterModule } from "@angular/router";
+import {
+  Component,
+  inject,
+  ChangeDetectionStrategy,
+  signal,
+} from "@angular/core";
+import { RouterModule } from "@angular/router";
 import { AuthService } from "../auth.service";
+import {
+  form,
+  required,
+  email,
+  FormField,
+  FormRoot,
+  minLength,
+} from "@angular/forms/signals";
+
+interface RegisterData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
 
 @Component({
   selector: "app-register",
-  imports: [FormsModule, RouterModule],
+  imports: [RouterModule, FormField, FormRoot],
   templateUrl: "./register.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: "./register.component.scss",
@@ -14,7 +32,22 @@ import { AuthService } from "../auth.service";
 export class RegisterComponent {
   private readonly authService = inject(AuthService);
 
-  onSubmit(form: NgForm) {
-    this.authService.signUp(form.value);
+  protected readonly registerModel = signal<RegisterData>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+  protected readonly registerForm = form(this.registerModel, (s) => {
+    required(s.firstName);
+    required(s.lastName);
+    required(s.email);
+    email(s.email);
+    required(s.password);
+    minLength(s.password, 6);
+  });
+
+  onSubmit() {
+    this.authService.signUp(this.registerModel());
   }
 }

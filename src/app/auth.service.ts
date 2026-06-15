@@ -45,9 +45,9 @@ export class AuthService {
       this.getAndSaveUserLocally();
       this.toast.success(`Registration successful`);
       this.router.navigate(["tracker"]);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      this.toast.error("Error occurred, please try again later");
+      this.toast.error(error.message || "Registration failed");
     }
   }
 
@@ -61,9 +61,9 @@ export class AuthService {
       this.getAndSaveUserLocally();
       this.toast.success(`Welcome back 🎉`);
       this.router.navigate(["tracker"]);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      this.toast.error("Invalid email or password!");
+      this.toast.error(error.message || "Invalid email or password!");
     }
   }
 
