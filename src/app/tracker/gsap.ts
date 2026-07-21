@@ -6,12 +6,20 @@ export const initAnimation = () => {
     .from("h1", {
       y: -20,
     })
-    .from(".left", {
-      x: -20,
-    })
-    .from(".right", {
-      x: 20,
-    })
+    .from(
+      ".left",
+      {
+        x: -20,
+      },
+      "bull",
+    )
+    .from(
+      ".right",
+      {
+        x: 20,
+      },
+      "bull",
+    )
     .from(".inc-exp-container", {
       y: 20,
     })
