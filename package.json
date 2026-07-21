@@ -27,6 +27,7 @@
     "@ngneat/overview": "^6.1.1",
     "@ngxpert/hot-toast": "^4.1.2",
     "appwrite": "^16.1.0",
+    "gsap": "^3.15.0",
     "html2pdf.js": "^0.10.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.0.0",

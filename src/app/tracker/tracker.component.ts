@@ -5,12 +5,14 @@ import {
   inject,
   OnInit,
   ChangeDetectionStrategy,
+  afterNextRender,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { HistoryComponent } from "../history/history.component";
 import { TotalIncomeExpensesComponent } from "../total-income-expenses/total-income-expenses.component";
 import { TransactionService, CurrencyType } from "../transaction.service";
 import { Router } from "@angular/router";
+import { initAnimation } from "./gsap";
 
 @Component({
   selector: "app-tracker",
@@ -36,6 +38,12 @@ export class TrackerComponent implements OnInit {
   public selectedCurrencyType = this.transactionService.selectedCurrencyType();
   public selectedCurrencySymbol =
     this.transactionService.selectedCurrencySymbol;
+
+  constructor() {
+    afterNextRender(() => {
+      initAnimation();
+    });
+  }
 
   async ngOnInit(): Promise<void> {
     const userId = await this.authService.getUserId();
