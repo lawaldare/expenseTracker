@@ -50,6 +50,11 @@ body {
     display: flex;
     align-items: center;
 
+    img {
+      height: 40px;
+      cursor: pointer;
+    }
+
     .ph {
       margin-right: 10px;
     }
@@ -254,12 +259,16 @@ select {
   padding: 2px 5px;
   position: absolute;
   top: 50%;
-  right: -65px;
+  right: -91px;
   transform: translate(-100%, -50%);
   // opacity: 0;
   // transition: opacity 0.3s ease;
   border-radius: 4px;
-  border: 1px solid #e74c3c;
+  // border: 1px solid #e74c3c;
+
+  img {
+    height: 40px;
+  }
 }
 
 // .list li:hover .delete-btn {

@@ -22,7 +22,7 @@ export class HistoryComponent {
   private readonly dialog = inject(MatDialog);
   public deleteTransaction(transaction: Transaction): void {
     const response = confirm(
-      "Are you sure you want to delete this transaction?",
+      `Are you sure you want to delete ${transaction.text}`,
     );
     if (response) {
       this.transactionService.deleteTransaction(transaction);

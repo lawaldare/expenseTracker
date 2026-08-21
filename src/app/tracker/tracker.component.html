@@ -8,18 +8,28 @@
     <div class="left">
       <h4>Your Balance</h4>
       <h2 class="balance" [class.negative]="totalBalance() < 0">
-        {{ totalBalance() | currency : selectedCurrencySymbol() }}
+        {{ totalBalance() | currency: selectedCurrencySymbol() }}
       </h2>
     </div>
     <div class="right" data-html2canvas-ignore>
-      <i class="ph ph-file-pdf" (click)="exportAsPDF()"></i>
-      <i class="ph ph-trash" (click)="deleteAllTransaction()"></i>
+      <!-- <i class="ph ph-file-pdf" (click)="exportAsPDF()"></i> -->
+      <!-- <i class="ph ph-trash" (click)="deleteAllTransaction()"></i> -->
+      <img
+        src="assets/images/pdf.png"
+        alt="delete icon"
+        (click)="exportAsPDF()"
+      />
+      <img
+        src="assets/images/delete.png"
+        alt="delete icon"
+        (click)="deleteAllTransaction()"
+      />
       <select
         [(ngModel)]="selectedCurrencyType"
         (ngModelChange)="changeCurrency($event)"
       >
-        @for(curr of currencies; track curr.symbol){
-        <option [value]="curr.type">{{ curr.name }}</option>
+        @for (curr of currencies; track curr.symbol) {
+          <option [value]="curr.type">{{ curr.name }}</option>
         }
       </select>
     </div>
