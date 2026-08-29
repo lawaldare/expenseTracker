@@ -302,7 +302,6 @@ export class TransactionService {
       "category",
       "timeStamp",
     ]);
-    console.log(this.transactions());
     const mappedTransaction = this.transactions().map((tr) => {
       return {
         ...tr,
