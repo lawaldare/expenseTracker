@@ -289,9 +289,9 @@ export class TransactionService {
     doc.text("Expense Tracker Report", 10, 20);
     doc.setFontSize(18);
     doc.text(
-      `Balance: ${this.totalBalance().toFixed(
+      `Income: £${this.totalIncome()} | Expenses: £${this.totalExpenses()} | Bills: £${this.totalBills()} | Investments: £${this.totalInvestments()} | Balance: £${this.totalBalance().toFixed(
         2,
-      )} | Income: ${this.totalIncome()} | Expenses: ${this.totalExpenses()}`,
+      )}`,
       10,
       30,
     );
@@ -302,10 +302,11 @@ export class TransactionService {
       "category",
       "timeStamp",
     ]);
+    console.log(this.transactions());
     const mappedTransaction = this.transactions().map((tr) => {
       return {
         ...tr,
-        category: tr.category === "+" ? "Income" : "Expenses",
+        category: tr.category,
         timeStamp: new Date(tr.timeStamp).toDateString(),
         amount: this.selectedCurrency().symbol + String(tr.amount),
       };
