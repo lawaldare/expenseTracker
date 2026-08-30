@@ -24,14 +24,14 @@
         alt="delete icon"
         (click)="deleteAllTransaction()"
       />
-      <select
+      <!-- <select
         [(ngModel)]="selectedCurrencyType"
         (ngModelChange)="changeCurrency($event)"
       >
         @for (curr of currencies; track curr.symbol) {
           <option [value]="curr.type">{{ curr.name }}</option>
         }
-      </select>
+      </select> -->
     </div>
   </section>
 
